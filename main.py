@@ -12,7 +12,8 @@ from colorama import Fore, Back, Style, init
 path_to_videos = 'Input'  # Path Directory
 path_out_to_videos = 'Output'  # Path Directory
 video_extensions = ['.mp4', '.avi', '.mkv', '.mov']  # Videos Extensions Allowed
-FONT_FILE_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" # Colab Font Fix
+# Colab Font Fix: Use a known system font in Colab (Linux)
+FONT_FILE_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" 
 
 # --- Function Definitions ---
 
@@ -30,7 +31,7 @@ def loopWaterMark(videos_file, line, user_size, user_color, user_opacity, user_t
         all_video = videos_file
 
     for video in all_video:
-        # 🚨 FIX: Corrected path construction using os.path.join and relative path logic
+        # FIX: Corrected path construction using os.path.join
         relative_path_to_video = os.path.relpath(video, path_to_videos)
         output_dir = os.path.join(path_out_to_videos, line, os.path.dirname(relative_path_to_video))
         os.makedirs(output_dir, exist_ok=True)
@@ -51,6 +52,7 @@ def loopWaterMark(videos_file, line, user_size, user_color, user_opacity, user_t
         ]
         
         try:
+            # Execute the FFmpeg command
             subprocess.run(ffmpeg_cmd, check=True, capture_output=True, text=True)
             print(" ")
             print(Fore.GREEN + f"{video} complete! Output saved to: {output_path}" + Style.RESET_ALL)
@@ -71,7 +73,7 @@ def loopWaterMark(videos_file, line, user_size, user_color, user_opacity, user_t
             
             shutil.copy(video, output_path)
 
-# 🚨 IMPORTANT: Ensure 'main' is defined at the top level
+# IMPORTANT: Ensure 'main' is defined at the top level (no indentation before 'def main():')
 def main():
     init()
     
